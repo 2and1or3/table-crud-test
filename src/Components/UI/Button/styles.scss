@@ -1,0 +1,15 @@
+.button {
+  background: none;
+  padding: 0;
+  border: none;
+  color: $BRIGHT_GRAY;
+  transition: all 0.2s ease-out;
+
+  &--icon {
+    width: 44px;
+  }
+
+  &:hover {
+    color: $WHITE;
+  }
+}

@@ -1,46 +1,152 @@
-# Getting Started with Create React App
+# Тестовое задание
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Требуется создать сайт по макету в фигме. 
 
-## Available Scripts
+Стек: TypeScript, React, SASS, а так же всё что вам понадобится (например MUI
+или Redux).
 
-In the project directory, you can run:
+https://www.figma.com/file/ni2cIPmG0XbAlAUenyUWGs/Untitled?node-id=0%3A1
 
-### `npm start`
+---
+## От себя:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  Привет, читатель! 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  Реализовывая данное задание, я немного изменил дизайн проекта на свой вкус 
+  и поигрался с архитектурой проекта. Бизнес логику выделил в отдельный слой RowUC.ts,
+  что позволит использовать ее независимо от визуального интерфейса. 
+  Если говорить о том, что еще можно было бы добавить, то следующим шагом я бы выделил слой, 
+  который будет работать с различными источниками данных (redux, API, localStorage и тд)
+  
+  Помимо описанных ниже задач я также добавил функционал удаления строки, чтобы был полный CRUD :)
+  и немного изменил порядок операций над строками
 
-### `npm test`
+  Я сделал этот репозиторий публичным, потому что считаю, что это нечестное требование
+  по отношению ко времени и силам, которые я вложил в это задание.
+  Если его скопируют, то думаю его сразу можно будет отличить от остальных)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  Удачного review, senior!))
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Описание
+Используйте в своём коде эти функции, изменять функцию recalculation запрещается:
+```typescript
+interface NewRowData {
+  title: string // Наименование работ
+  unit: string // Ед. изм.
+  quantity: number // Количество
+  unitPrice: number // Цена за ед.
+  price: number // Стоимость
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  parent: number | null // id уровня, в котором находится (либо null для первого уровня)
+  type: 'level' | 'row'
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+interface RowData extends NewRowData {
+  id: number
+}
 
-### `npm run eject`
+// функция для сохранения строки
+function saveRow( rowData: NewRowData, storage: RowData[] ) {
+  const index = Math.max(...storage.map(( v ) => v.id), 0) + 1
+  const row: RowData = { id: index, ...rowData }
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  storage.push(row)
+  return {
+    current: row,
+    changed: recalculation(row.parent, storage)
+  }
+}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+// функция для изменения строки
+function editRow( row: RowData, storage: RowData[] ) {
+  const index = storage.findIndex(( v ) => v.id === row.id)
+  storage.splice(index, 1, row)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  return {
+    current: row,
+    changed: recalculation(row.parent, storage)
+  }
+}
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+function recalculation( parentID: number | null, storage: RowData[] ) {
+  const rows = [...storage]
+  const changedRows: RowData[] = []
 
-## Learn More
+  if (parentID == null) return changedRows
+  let currentParentIndex = rows.findIndex(( v ) => v.id === parentID)
+  if (currentParentIndex === -1) return changedRows
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  do {
+    const currentParent = rows[currentParentIndex]
+    const children = rows.filter(( v ) => v.parent == currentParent.id)
+    const newPrice = children.reduce(( acc, v ) => acc + v.price, 0)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    if (currentParent.price !== newPrice) {
+      rows[currentParentIndex].price = newPrice
+      changedRows.push(rows[currentParentIndex])
+
+      currentParentIndex = rows.findIndex(( v ) => v.id === currentParent.parent)
+      continue
+    }
+
+    break
+  } while (currentParentIndex !== -1)
+
+  return changedRows
+}
+```
+
+### Термины
+
+Уровень - строка в таблице содержащая значения только в колонке стоимость (а так же имеющая `type: 'level'`).
+
+Расчёт - строка не являющаяся уровнем, имеет `type: 'row'`.
+
+Режим редактирования - режим в котором можно редактировать значения строк.
+
+### Первый вход на экран
+
+При первом входе на экран сайта должна отображаться строка первого уровня в режиме редактирования.
+
+### Создание строки
+
+Для создания новой строки нужно нажать на иконку уже существующей строки (как показано на втором экране макета)
+
+**Нажать на иконку строки которая в данный момент редактируется нельзя.**
+
+При нажатии на иконку уровня имеется возможность создать такой же уровень, уровень ниже, и расчёт.
+
+После создания появляется пустая строка в режиме редактирования.
+
+### Редактирование и сохранение строки
+
+Что бы редактировать строку нужно дважды нажать на ячейку, в которой находится значение. 
+
+После двойного клика вся строка переходит в режим редактирования.
+
+Что бы сохранить строку требуется нажать `Enter` внутри любого поля ввода внутри строки.
+
+### Ограничения
+
+При редактировании уровня мы можем редактировать только столбец `Наименование работ`.
+
+При редактировании расчёта мы не можем редактировать столбец `Стоимость`, значение в этом столбце рассчитывается по формуле `Количество * Цена за ед.`.
+
+Каждая строка по умолчанию должна иметь `Стоимость` равную `0`, позаботьтесь об этом.
+
+При отображении уровней скрывайте значения в столбцах: `Ед. изм.`, `Количество` и `Цена за ед.`
+
+# FAQ
+
+**Можно ли использовать Redux?**
+Да, вы можете использовать всё что хотите.
+
+**Нужен ли адаптив?**
+По желанию.
+
+### Резюме
+
+От вас требуется верстка всего экрана (всё кроме строк не является интерактивным, но это нужно сверстать). Верстка таблицы и создание/редактирование/сохранение **строк и уровней**.
+Так же заметьте что функции `saveRow` и `editRow` возвращают массив изменённых строк, **от вас требуется обработать его**, и внести изменения в нужные строки в том месте, где вы их храните.

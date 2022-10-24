@@ -1,0 +1,37 @@
+.level {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+
+  &--have-parent {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: calc(100% - 3px);
+      width: 11px;
+      height: 1px;
+      background-color: $EXTRA_BRIGHT_GRAY;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+
+      bottom: calc(50% - 1px);
+      right: calc(100% + 11px - 3px);
+      width: 1px;
+      height: 63px;
+      background-color: $EXTRA_BRIGHT_GRAY;
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    z-index: 2;
+  }
+}

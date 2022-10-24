@@ -1,0 +1,26 @@
+.table-wrapper {
+  padding: 20px 24px;
+
+  overflow-y: auto;
+  max-height: calc(100vh - 91px);
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px $LIGHT_GRAY;
+  }
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+
+  &__row {
+
+    &--header {
+      color: $BRIGHT_GRAY;
+    }
+  }
+}

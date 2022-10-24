@@ -1,0 +1,21 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  &__body {
+    flex-grow: 1;
+  }
+}
+
+.page {
+  display: flex;
+
+  &__navbar {
+
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+}

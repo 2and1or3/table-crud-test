@@ -1,0 +1,19 @@
+.navbar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 8px 20px;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    background-color: $LIGHT_GRAY;
+  }
+
+  &--active {
+    background-color: $LIGHT_GRAY;
+  }
+
+  &__icon {
+    margin-right: 16px;
+  }
+}

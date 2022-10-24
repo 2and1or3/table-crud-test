@@ -1,0 +1,18 @@
+@import "./global/vars.scss";
+@import "./global/mixins.scss";
+
+.text1 {
+  @include font(14px, 16px);
+
+  &--small {
+    @include font(10px, 12px);
+  }
+}
+
+.text2 {
+  @include font(14px, 18px, 0.1px)
+}
+
+.title3 {
+  @include font(18px, 21px);
+}

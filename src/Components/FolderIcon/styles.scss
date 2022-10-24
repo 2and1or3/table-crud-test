@@ -1,0 +1,15 @@
+.folder-icon {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  z-index: 1;
+
+  &__number {
+    position: absolute;
+    top: calc(50% + 1px);
+    left: calc(50% - 1px);
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+  }
+}

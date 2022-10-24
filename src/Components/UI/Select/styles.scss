@@ -1,0 +1,96 @@
+.select-click-away {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.select {
+  position: relative;
+  width: 100%;
+  background-color: $GRAY;
+  color: $BRIGHT_GRAY;
+
+  &--active {
+
+    .select__title {
+      color: $WHITE;
+    }
+
+    .select__arrow {
+      transform: translate(0, -50%) rotate(-180deg);
+    }
+  }
+
+
+  &__arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translate(0, -50%);
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+  }
+
+  &__abbr {
+    display: block;
+  }
+}
+
+.select__title {
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  background-color: transparent;
+  border: none;
+  padding: 8px 12px 8px 20px;
+  text-align: left;
+
+  &:hover {
+    color: $WHITE;
+  }
+}
+
+.select__content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  background-color: $GRAY_DARK;
+  border: 1px solid $LIGHT_GRAY;
+  transition: all 0.3s ease-out;
+
+  z-index: 8;
+}
+
+.select__input {
+  display: none;
+
+  &:checked + label {
+    background-color: $LIGHT_GRAY;
+    color: $WHITE;
+  }
+}
+
+.select__label {
+  width: 100%;
+  padding: 12px;
+
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  overflow: hidden;
+
+  & + input + & {
+    border-top: 0 solid $LIGHT_GRAY;
+  }
+
+  &:hover {
+    background-color: $LIGHT_GRAY !important;
+    color: $WHITE;
+  }
+}

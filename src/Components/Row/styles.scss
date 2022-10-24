@@ -1,0 +1,28 @@
+.row {
+
+  &__cell {
+    padding: 18px 12px 18px 11px;
+    border-top: 1px solid $LIGHT_GRAY;
+
+    &--header {
+      padding: 11px 12px 13px;
+      border-top: none;
+    }
+
+    &--level {
+    }
+
+    &--title {
+    }
+
+    &--unit,
+    &--unit-price,
+    &--price {
+    }
+
+    &--editing {
+      padding: 10px 12px;
+      padding-left: 0;
+    }
+  }
+}

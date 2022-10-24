@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  border: 1px solid $LIGHT_GRAY;
+  padding: 0 $ASIDE_PADDING;
+
+  &__btns {
+    margin-right: 16px;
+    display: flex;
+  }
+
+  &__links {
+    display: flex;
+  }
+
+  &__profile-toggle {
+    margin-left: auto;
+  }
+}

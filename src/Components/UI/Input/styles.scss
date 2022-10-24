@@ -1,0 +1,13 @@
+.input {
+  padding: 10px;
+  border: 1px solid $LIGHT_GRAY;
+  border-radius: 6px;
+  color: $WHITE;
+  background-color: transparent;
+  caret-color: $BRIGHT_GRAY;
+  width: 100%;
+
+  &::placeholder {
+    color: $BRIGHT_GRAY;
+  }
+}

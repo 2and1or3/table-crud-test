@@ -1,0 +1,34 @@
+.nav-link {
+  padding: 13px 6px 15px;
+  color: $BRIGHT_GRAY;
+  position: relative;
+  transition: all 0.2s ease-out;
+  text-decoration: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: all 0.2s ease-out;
+  }
+
+  &:hover {
+    color: $WHITE;
+
+    &::after {
+      background-color: $BRIGHT_GRAY;
+    }
+  }
+
+  &--active {
+    color: $WHITE;
+
+    &::after {
+      background-color: $WHITE;
+    }
+  }
+}

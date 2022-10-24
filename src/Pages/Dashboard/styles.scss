@@ -1,0 +1,15 @@
+.dashboard-page {
+  background-color: $GRAY_DARK;
+
+  &__panel {
+    background-color: $GRAY;
+    border-bottom: 1px solid $LIGHT_GRAY;
+  }
+
+  &__title {
+    padding: 11px 15px 12px;
+    border-right: 1px solid $LIGHT_GRAY;
+    display: inline-block;
+    margin: 0;
+  }
+}
